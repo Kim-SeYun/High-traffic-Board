@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.boardserver.mapper.UserProfileMapper">
+    <select id="getUserProfile" resultType="com.board.boardserver.dto.UserDTO">
+        SELECT id, userId, password, nickName, createTime, isWithDraw, status
+        FROM user
+        WHERE userId = #{id}
+    </select>
+
+    <insert id="insertUserProfile" parameterType="com.board.boardserver.dto.UserDTO">
+        INSERT INTO user (userId, password, nickName, isWithDraw, status, isAdmin)
+        VALUES (#{userId}, #{password}, #{nickName}, #{isWithDraw}, #{status}, #{isAdmin})
+    </insert>
+
+    <update id="updateUserProfile" parameterType="com.board.boardserver.dto.UserDTO">
+        UPDATE user
+        SET password = #{password}
+            nickName = #{nickName}
+            isWithDraw = #{isWithDraw}
+            status = #{statue}
+        WHERE id = #{id}
+    </update>
+    
+    <delete id="deleteUserProfile">
+        DELETE
+        FROM user
+        WHERE userId = #{id}
+    </delete>
+    
+    <select id="findByIdAndPassword" resultType="com.board.boardserver.dto.UserDTO">
+        SELECT id, userId, password, nickName, createTime, isWithDraw, status
+        FROM user
+        WHERE userId = #{id}
+        AND password = #{password}
+        AND status != 'DELETE'
+    </select>
+
+    <select id="idCheck" resultType="int">
+        SELECT COUNT(id)
+        FROM user
+        WHERE userId = #{id}
+    </select>
+
+    <update id="updatePassword" parameterType="com.board.boardserver.dto.UserDTO">
+        UPDATE user
+        SET password = #{password}
+        WHERE userId = #{userId}
+    </update>
+
+    <insert id="regist">
+        INSERT INTO user (userId, password, nickName, isWithDraw, status)
+        VALUES (#{userId}, #{password}, #{nickName}, #{isWithDraw}, #{status})
+    </insert>
+
+</mapper>
